@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DF Software — Código & Innovación</title>
+<meta name="description" content="Desarrollo web y software a medida en Ciudad de México. Sitios de alto rendimiento, aplicaciones a medida, mantenimiento y soporte.">
+<link rel="icon" type="image/png" href="assets/df-icono.png">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          // Paleta "Xochimilco" — confirmada contra assets/df-icono.png y
+          // df-marca-completa.png, ajustada para uso de UI sobre fondo oscuro.
+          tinta: "#0A211F",
+          "tinta-panel": "#0F2C29",
+          papel: "#F4EEE2",
+          "papel-dim": "#B9AE9C",
+          jade: "#3FAE8A",
+          tule: "#D9A441",
+          line: "#1C3F3A",
+        },
+        fontFamily: {
+          display: ["Hanken Grotesk", "sans-serif"],
+          body: ["Inter", "sans-serif"],
+        },
+        boxShadow: {
+          low: "0px 4px 20px rgba(0, 0, 0, 0.18)",
+        },
+      },
+    },
+  };
+</script>
+<style>
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+  /* ---- Wordmark: dos tonos sólidos (como el logo real), sin gradiente ---- */
+  .wordmark-df { color: #F4EEE2; }
+  .wordmark-software { color: #3FAE8A; }
+
+  /* ---- Ícono de marca invertido a tono papel sobre fondo oscuro ---- */
+  .brand-icon-mark { filter: grayscale(1) invert(1) brightness(1.05); mix-blend-mode: screen; opacity: 0.92; }
+
+  /* ---- Botones primarios (único acento: --tule) ---- */
+  .btn-primary { transition: transform 180ms ease-out, box-shadow 180ms ease-out; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(217,164,65,0.28); }
+  .btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: 0 4px 12px rgba(217,164,65,0.2); }
+
+  /* ---- Enlaces de texto con subrayado --jade que crece desde la izquierda ---- */
+  .link-underline { position: relative; }
+  .link-underline::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px;
+    background: currentColor; transform: scaleX(0); transform-origin: left;
+    transition: transform 200ms ease-out;
+  }
+  .link-underline:hover::after { transform: scaleX(1); }
+
+  /* ---- Tarjetas de servicio/precios: elevación + borde --jade al 30% ---- */
+  .card-hover { transition: transform 200ms ease-out, border-color 200ms ease-out; }
+  .card-hover:hover { transform: translateY(-4px); border-color: rgba(63,174,138,0.35); }
+
+  /* ---- Scroll-reveal (IntersectionObserver, una sola vez) ---- */
+  [data-reveal] {
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 450ms ease-out, transform 450ms ease-out;
+  }
+  [data-reveal].is-revealed { opacity: 1; transform: translateY(0); }
+
+  /* ---- Anillo de trazo animado para los números del proceso ---- */
+  .process-ring-progress { transition: stroke-dashoffset 900ms cubic-bezier(0.4,0,0.2,1); }
+
+  /* ---- Vistas previas del portafolio (sin tocar la mecánica del iframe) ---- */
+  .preview { position: relative; overflow: hidden; }
+  .preview iframe { position: absolute; top: 0; left: 0; border: 0; pointer-events: none; transform-origin: top left; background: #fff; }
+  .preview-badge {
+    position: absolute; top: 12px; left: 12px; z-index: 2; display: flex; align-items: center; gap: 6px;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 20px; background: rgba(244,238,226,0.92); color: #475569;
+  }
+  .preview-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #475569; }
+  .preview-badge.live { color: #0A211F; }
+  .preview-badge.live .dot { background: #0A211F; }
+  .preview-overlay {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(10,33,31,0); transition: background 0.2s;
+  }
+  .preview-overlay span {
+    display: inline-flex; align-items: center; gap: 4px; font-size: 0.82rem; font-weight: 700; color: #0A211F;
+    background: #D9A441; padding: 9px 16px; border-radius: 4px; opacity: 0; transform: translateY(6px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .preview-link:hover .preview-overlay { background: rgba(10,33,31,0.4); }
+  .preview-link:hover .preview-overlay span { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body class="bg-tinta text-papel-dim font-body antialiased overflow-x-hidden">
+
+<!-- ===== HEADER ===== -->
+<header id="siteHeader" class="fixed top-0 w-full z-50 border-b border-transparent transition-colors duration-300">
+  <div class="flex justify-between items-center px-6 py-4 max-w-[1280px] mx-auto">
+    <a href="index.html" class="flex items-center gap-2">
+      <span class="font-display font-bold text-lg leading-tight"><span class="wordmark-df">DF</span> <span class="wordmark-software">Software</span></span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a href="#services" class="text-sm font-semibold text-papel-dim hover:text-jade transition-colors">Servicios</a>
+      <a href="#process" class="text-sm font-semibold text-papel-dim hover:text-jade transition-colors">Proceso</a>
+      <a href="#pricing" class="text-sm font-semibold text-papel-dim hover:text-jade transition-colors">Precios</a>
+      <a href="#portfolio" class="text-sm font-semibold text-papel-dim hover:text-jade transition-colors">Portafolio</a>
+      <a href="#about" class="text-sm font-semibold text-papel-dim hover:text-jade transition-colors">Nosotros</a>
+      <a href="#contact" class="text-sm font-semibold text-papel-dim hover:text-jade transition-colors">Contacto</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <a href="#contact" class="btn-primary hidden sm:inline-flex items-center justify-center text-tinta font-bold text-sm rounded px-6 py-3 bg-tule">
+        Solicitar cotización
+      </a>
+      <button id="menuBtn" aria-label="Abrir menú" aria-expanded="false" class="md:hidden p-2 rounded text-papel">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile menu -->
+  <nav id="mobileMenu" class="hidden md:hidden flex-col gap-1 px-6 pb-4 bg-tinta-panel border-t border-line">
+    <a href="#services" class="py-3 text-papel-dim hover:text-jade">Servicios</a>
+    <a href="#process" class="py-3 text-papel-dim hover:text-jade">Proceso</a>
+    <a href="#pricing" class="py-3 text-papel-dim hover:text-jade">Precios</a>
+    <a href="#portfolio" class="py-3 text-papel-dim hover:text-jade">Portafolio</a>
+    <a href="#about" class="py-3 text-papel-dim hover:text-jade">Nosotros</a>
+    <a href="#contact" class="py-3 text-papel-dim hover:text-jade">Contacto</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ===== HERO ===== -->
+  <section class="relative pt-36 pb-16 md:pt-44 overflow-hidden">
+    <div class="absolute inset-x-0 top-1/2 h-px bg-line pointer-events-none" aria-hidden="true"></div>
+    <div class="px-6 max-w-[1280px] mx-auto relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
+        <div data-reveal>
+          <span class="block text-jade text-sm font-semibold tracking-wide mb-6">— Expertos en desarrollo web</span>
+          <h1 class="font-display font-bold text-4xl md:text-6xl text-papel leading-tight mb-6">
+            Creamos páginas web que conectan tu negocio con el futuro
+          </h1>
+          <p class="text-lg text-papel-dim max-w-lg mb-10 leading-relaxed">
+            Soluciones de software a medida que impulsan la innovación y el crecimiento digital de tu empresa.
+          </p>
+          <div class="flex flex-wrap items-center gap-10">
+            <a href="#contact" class="btn-primary inline-flex items-center gap-2 text-tinta font-bold rounded px-8 py-4 bg-tule">
+              Inicia tu proyecto
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+            <a href="#services" class="link-underline text-jade font-semibold">Ver servicios</a>
+          </div>
+        </div>
+        <div class="relative flex justify-center lg:justify-end bg-tinta" data-reveal data-reveal-delay="120">
+          <img src="assets/df-icono.png" alt="" aria-hidden="true" class="brand-icon-mark w-56 md:w-72 h-auto">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ESTADÍSTICAS ===== -->
+  <div class="px-6 max-w-[1280px] mx-auto">
+    <div class="grid grid-cols-3 border-t border-b border-line divide-x divide-line">
+      <div class="py-8 text-center" data-reveal data-reveal-delay="0">
+        <div class="font-display text-3xl md:text-4xl font-bold text-papel mb-1">3</div>
+        <div class="text-papel-dim text-sm">Servicios especializados</div>
+      </div>
+      <div class="py-8 text-center" data-reveal data-reveal-delay="70">
+        <div class="font-display text-3xl md:text-4xl font-bold text-papel mb-1">100%</div>
+        <div class="text-papel-dim text-sm">Código a la medida</div>
+      </div>
+      <div class="py-8 text-center" data-reveal data-reveal-delay="140">
+        <div class="font-display text-3xl md:text-4xl font-bold text-papel mb-1">24/7</div>
+        <div class="text-papel-dim text-sm">Soporte y monitoreo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SERVICIOS ===== -->
+  <section id="services" class="py-24 bg-tinta-panel">
+    <div class="px-6 max-w-[1280px] mx-auto">
+      <div class="text-center mb-16" data-reveal>
+        <h2 class="font-display font-semibold text-3xl md:text-4xl text-papel mb-4">Nuestros Servicios</h2>
+        <p class="text-papel-dim max-w-2xl mx-auto text-lg">Transformamos ideas en realidades digitales con tecnología de vanguardia y un enfoque centrado en resultados.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href="servicios/desarrollo-web.html" class="card-hover group bg-tinta p-8 rounded-2xl shadow-low border border-transparent block" data-reveal data-reveal-delay="0">
+          <div class="w-12 h-12 rounded-lg bg-jade/10 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-2xl text-jade">language</span>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3 text-papel">Desarrollo Web</h3>
+          <p class="text-papel-dim">Sitios web personalizados construidos para el máximo rendimiento y conversión.</p>
+          <span class="link-underline inline-flex items-center gap-1 text-jade text-sm font-semibold mt-4">Ver más <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+        </a>
+        <a href="servicios/aplicaciones-medida.html" class="card-hover group bg-tinta p-8 rounded-2xl shadow-low border border-transparent block" data-reveal data-reveal-delay="70">
+          <div class="w-12 h-12 rounded-lg bg-jade/10 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-2xl text-jade">terminal</span>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3 text-papel">Aplicaciones a Medida</h3>
+          <p class="text-papel-dim">Software especializado adaptado exactamente a los flujos de trabajo de tu empresa.</p>
+          <span class="link-underline inline-flex items-center gap-1 text-jade text-sm font-semibold mt-4">Ver más <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+        </a>
+        <a href="servicios/mantenimiento-soporte.html" class="card-hover group bg-tinta p-8 rounded-2xl shadow-low border border-transparent block" data-reveal data-reveal-delay="140">
+          <div class="w-12 h-12 rounded-lg bg-jade/10 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-2xl text-jade">support_agent</span>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3 text-papel">Mantenimiento y Soporte</h3>
+          <p class="text-papel-dim">Cuidado proactivo para asegurar que tus plataformas digitales funcionen sin interrupciones.</p>
+          <span class="link-underline inline-flex items-center gap-1 text-jade text-sm font-semibold mt-4">Ver más <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROCESO ===== -->
+  <section id="process" class="py-24 bg-tinta">
+    <div class="px-6 max-w-[1280px] mx-auto">
+      <div class="text-center mb-16" data-reveal>
+        <h2 class="font-display font-semibold text-3xl md:text-4xl text-papel mb-4">Nuestro Proceso</h2>
+        <p class="text-papel-dim max-w-2xl mx-auto text-lg">Un camino estructurado para llevar tu visión desde el concepto hasta la realidad digital.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div class="flex flex-col items-center text-center" data-reveal data-reveal-delay="0">
+          <div class="relative w-14 h-14 mb-4" data-process-ring>
+            <svg class="absolute inset-0" viewBox="0 0 56 56" aria-hidden="true">
+              <circle cx="28" cy="28" r="26" fill="none" stroke="#1C3F3A" stroke-width="2"/>
+              <circle class="process-ring-progress" cx="28" cy="28" r="26" fill="none" stroke="#D9A441" stroke-width="2" stroke-linecap="round" transform="rotate(-90 28 28)" stroke-dasharray="163.4" stroke-dashoffset="163.4"/>
+            </svg>
+            <div class="absolute inset-[6px] rounded-full bg-tule text-tinta flex items-center justify-center font-display font-bold">1</div>
+          </div>
+          <h3 class="font-display font-semibold mb-2 text-papel">Descubrimiento</h3>
+          <p class="text-papel-dim text-sm px-2">Analizamos tus necesidades y definimos la estrategia ideal.</p>
+        </div>
+        <div class="flex flex-col items-center text-center" data-reveal data-reveal-delay="70">
+          <div class="relative w-14 h-14 mb-4" data-process-ring>
+            <svg class="absolute inset-0" viewBox="0 0 56 56" aria-hidden="true">
+              <circle cx="28" cy="28" r="26" fill="none" stroke="#1C3F3A" stroke-width="2"/>
+              <circle class="process-ring-progress" cx="28" cy="28" r="26" fill="none" stroke="#D9A441" stroke-width="2" stroke-linecap="round" transform="rotate(-90 28 28)" stroke-dasharray="163.4" stroke-dashoffset="163.4"/>
+            </svg>
+            <div class="absolute inset-[6px] rounded-full bg-tule text-tinta flex items-center justify-center font-display font-bold">2</div>
+          </div>
+          <h3 class="font-display font-semibold mb-2 text-papel">Diseño</h3>
+          <p class="text-papel-dim text-sm px-2">Creamos interfaces intuitivas y atractivas centradas en el usuario.</p>
+        </div>
+        <div class="flex flex-col items-center text-center" data-reveal data-reveal-delay="140">
+          <div class="relative w-14 h-14 mb-4" data-process-ring>
+            <svg class="absolute inset-0" viewBox="0 0 56 56" aria-hidden="true">
+              <circle cx="28" cy="28" r="26" fill="none" stroke="#1C3F3A" stroke-width="2"/>
+              <circle class="process-ring-progress" cx="28" cy="28" r="26" fill="none" stroke="#D9A441" stroke-width="2" stroke-linecap="round" transform="rotate(-90 28 28)" stroke-dasharray="163.4" stroke-dashoffset="163.4"/>
+            </svg>
+            <div class="absolute inset-[6px] rounded-full bg-tule text-tinta flex items-center justify-center font-display font-bold">3</div>
+          </div>
+          <h3 class="font-display font-semibold mb-2 text-papel">Desarrollo</h3>
+          <p class="text-papel-dim text-sm px-2">Transformamos el diseño en código robusto y escalable.</p>
+        </div>
+        <div class="flex flex-col items-center text-center" data-reveal data-reveal-delay="210">
+          <div class="relative w-14 h-14 mb-4" data-process-ring>
+            <svg class="absolute inset-0" viewBox="0 0 56 56" aria-hidden="true">
+              <circle cx="28" cy="28" r="26" fill="none" stroke="#1C3F3A" stroke-width="2"/>
+              <circle class="process-ring-progress" cx="28" cy="28" r="26" fill="none" stroke="#D9A441" stroke-width="2" stroke-linecap="round" transform="rotate(-90 28 28)" stroke-dasharray="163.4" stroke-dashoffset="163.4"/>
+            </svg>
+            <div class="absolute inset-[6px] rounded-full bg-tule text-tinta flex items-center justify-center font-display font-bold">4</div>
+          </div>
+          <h3 class="font-display font-semibold mb-2 text-papel">Lanzamiento</h3>
+          <p class="text-papel-dim text-sm px-2">Desplegamos tu proyecto con los más altos estándares de calidad.</p>
+        </div>
+        <div class="flex flex-col items-center text-center" data-reveal data-reveal-delay="280">
+          <div class="relative w-14 h-14 mb-4" data-process-ring>
+            <svg class="absolute inset-0" viewBox="0 0 56 56" aria-hidden="true">
+              <circle cx="28" cy="28" r="26" fill="none" stroke="#1C3F3A" stroke-width="2"/>
+              <circle class="process-ring-progress" cx="28" cy="28" r="26" fill="none" stroke="#D9A441" stroke-width="2" stroke-linecap="round" transform="rotate(-90 28 28)" stroke-dasharray="163.4" stroke-dashoffset="163.4"/>
+            </svg>
+            <div class="absolute inset-[6px] rounded-full bg-tule text-tinta flex items-center justify-center font-display font-bold">5</div>
+          </div>
+          <h3 class="font-display font-semibold mb-2 text-papel">Soporte</h3>
+          <p class="text-papel-dim text-sm px-2">Acompañamos el crecimiento de tu negocio con mantenimiento constante.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRECIOS ===== -->
+  <section id="pricing" class="py-24 bg-tinta-panel">
+    <div class="px-6 max-w-[1280px] mx-auto">
+      <div class="text-center mb-4" data-reveal>
+        <h2 class="font-display font-semibold text-3xl md:text-4xl text-papel mb-4">Planes y Precios</h2>
+        <p class="text-papel-dim max-w-2xl mx-auto text-lg">Cada proyecto tiene un alcance distinto, así que el precio final también. Estos planes te dan una idea de qué incluye cada nivel.</p>
+      </div>
+      <p class="text-center text-xs uppercase tracking-widest text-papel-dim/60 mb-16">Cotización sin costo — precio final según alcance</p>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        <div class="card-hover bg-tinta p-8 rounded-2xl shadow-low border border-transparent flex flex-col h-full" data-reveal data-reveal-delay="0">
+          <div class="w-12 h-12 rounded-lg bg-jade/10 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-2xl text-jade">language</span>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-2 text-papel">Sitio Básico</h3>
+          <p class="text-papel-dim text-sm mb-6">Ideal para arrancar tu presencia digital.</p>
+          <ul class="flex flex-col gap-3 mb-8 text-sm text-papel-dim">
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>Landing page o sitio de una sola página</li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>Diseño responsivo (móvil y escritorio)</li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>Formulario de contacto</li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>SEO básico</li>
+          </ul>
+          <a href="#contact" class="link-underline mt-auto text-jade font-semibold">Cotizar este plan</a>
+        </div>
+
+        <div class="card-hover relative bg-tinta p-8 rounded-2xl border border-jade/40 flex flex-col h-full lg:-translate-y-4" data-reveal data-reveal-delay="70">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-wider bg-jade/15 text-jade px-3 py-1 rounded-full whitespace-nowrap">Más popular</span>
+          <div class="w-12 h-12 rounded-lg bg-jade/10 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-2xl text-jade">rocket_launch</span>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-2 text-papel">Sitio Profesional</h3>
+          <p class="text-papel-dim text-sm mb-6">Para negocios que necesitan presentar todo su valor.</p>
+          <ul class="flex flex-col gap-3 mb-8 text-sm text-papel-dim">
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>Sitio de varias páginas (Inicio, Servicios, Nosotros...)</li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>Diseño a medida con tu identidad de marca</li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>SEO avanzado + Analytics</li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>Integración con redes sociales y WhatsApp</li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>Panel para administrar contenido (opcional)</li>
+          </ul>
+          <a href="#contact" class="btn-primary mt-auto w-full inline-flex items-center justify-center gap-2 text-tinta font-bold rounded px-6 py-3 bg-tule">
+            Cotizar este plan
+          </a>
+        </div>
+
+        <div class="card-hover bg-tinta p-8 rounded-2xl shadow-low border border-transparent flex flex-col h-full" data-reveal data-reveal-delay="140">
+          <div class="w-12 h-12 rounded-lg bg-jade/10 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-2xl text-jade">terminal</span>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-2 text-papel">Aplicación a Medida</h3>
+          <p class="text-papel-dim text-sm mb-6">Para procesos específicos que necesitan software propio.</p>
+          <ul class="flex flex-col gap-3 mb-8 text-sm text-papel-dim">
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>Sistema o app diseñada para tu flujo de trabajo</li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>Integraciones con APIs, CRMs o ERPs</li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>Base de datos y backend a medida</li>
+            <li class="flex items-start gap-2"><span class="material-symbols-outlined text-jade text-base mt-0.5">check</span>Arquitectura pensada para escalar</li>
+          </ul>
+          <a href="#contact" class="link-underline mt-auto text-jade font-semibold">Cuéntanos tu proyecto</a>
+        </div>
+      </div>
+
+      <p class="text-center text-papel-dim text-sm mt-12">
+        ¿Ya tienes un sitio funcionando? Conoce nuestros
+        <a href="servicios/mantenimiento-soporte.html" class="link-underline text-jade font-semibold">planes de Mantenimiento y Soporte</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== PORTAFOLIO ===== -->
+  <section id="portfolio" class="py-24 bg-tinta">
+    <div class="px-6 max-w-[1280px] mx-auto">
+      <div class="text-center mb-16" data-reveal>
+        <h2 class="font-display font-semibold text-3xl md:text-4xl text-papel mb-4">Nuestro Portafolio</h2>
+        <p class="text-papel-dim max-w-2xl mx-auto text-lg">Tres ejemplos de lo que hacemos — pasa el cursor o haz clic sobre cualquier miniatura para explorar el sitio completo.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="rounded-2xl bg-papel overflow-hidden shadow-low hover:-translate-y-1 transition-transform flex flex-col" data-reveal data-reveal-delay="0">
+          <a href="https://bnyce-le-parfum.vercel.app/index.html#inicio" target="_blank" rel="noopener noreferrer" aria-label="Ver sitio completo de Bnyce Le Parfum" class="preview-link block">
+            <div class="preview aspect-video bg-slate-100" data-frame-width="1440" data-frame-height="810">
+              <span class="preview-badge live"><span class="dot"></span>En producción</span>
+              <iframe src="https://bnyce-le-parfum.vercel.app/index.html#inicio" title="Vista previa de Bnyce Le Parfum" loading="lazy" tabindex="-1"></iframe>
+              <div class="preview-overlay"><span>Ver sitio completo <span class="material-symbols-outlined text-sm">arrow_outward</span></span></div>
+            </div>
+          </a>
+          <div class="p-6 flex flex-col flex-1">
+            <span class="inline-block px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-tinta/8 text-tinta mb-3 self-start">E-commerce</span>
+            <h3 class="font-display font-semibold text-lg text-tinta mb-2">Bnyce Le Parfum</h3>
+            <p class="text-slate-600 text-sm mb-4 flex-1">E-commerce de fragancias inspiradas en CDMX, con tono directo y sin pretensiones. Sitio real, en producción.</p>
+            <a href="https://bnyce-le-parfum.vercel.app/index.html#inicio" target="_blank" rel="noopener noreferrer" class="link-underline inline-flex items-center gap-1 text-tinta text-sm font-semibold self-start">Ver sitio completo <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+          </div>
+        </div>
+        <div class="rounded-2xl bg-papel overflow-hidden shadow-low hover:-translate-y-1 transition-transform flex flex-col" data-reveal data-reveal-delay="70">
+          <a href="humo-y-sal-final.html" target="_blank" rel="noopener noreferrer" aria-label="Ver sitio completo de Humo & Sal" class="preview-link block">
+            <div class="preview aspect-video bg-slate-100" data-frame-width="1440" data-frame-height="810">
+              <span class="preview-badge"><span class="dot"></span>Mockup</span>
+              <iframe src="humo-y-sal-final.html" title="Vista previa de Humo & Sal" loading="lazy" tabindex="-1"></iframe>
+              <div class="preview-overlay"><span>Ver sitio completo <span class="material-symbols-outlined text-sm">arrow_outward</span></span></div>
+            </div>
+          </a>
+          <div class="p-6 flex flex-col flex-1">
+            <span class="inline-block px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-tinta/8 text-tinta mb-3 self-start">Identidad + Sitio Web</span>
+            <h3 class="font-display font-semibold text-lg text-tinta mb-2">Humo & Sal</h3>
+            <p class="text-slate-600 text-sm mb-4 flex-1">Mezcalería y antojitos de barrio en Coyoacán. Identidad oscura en cobre y verde agave, con ilustraciones originales en vez de fotos de stock.</p>
+            <a href="humo-y-sal-final.html" target="_blank" rel="noopener noreferrer" class="link-underline inline-flex items-center gap-1 text-tinta text-sm font-semibold self-start">Ver sitio completo <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+          </div>
+        </div>
+        <div class="rounded-2xl bg-papel overflow-hidden shadow-low hover:-translate-y-1 transition-transform flex flex-col" data-reveal data-reveal-delay="140">
+          <a href="terrario-cuadra-final.html" target="_blank" rel="noopener noreferrer" aria-label="Ver sitio completo de Terrario Cuadra" class="preview-link block">
+            <div class="preview aspect-video bg-slate-100" data-frame-width="1440" data-frame-height="810">
+              <span class="preview-badge"><span class="dot"></span>Mockup</span>
+              <iframe src="terrario-cuadra-final.html" title="Vista previa de Terrario Cuadra" loading="lazy" tabindex="-1"></iframe>
+              <div class="preview-overlay"><span>Ver sitio completo <span class="material-symbols-outlined text-sm">arrow_outward</span></span></div>
+            </div>
+          </a>
+          <div class="p-6 flex flex-col flex-1">
+            <span class="inline-block px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-tinta/8 text-tinta mb-3 self-start">Sitio Web + Catálogo</span>
+            <h3 class="font-display font-semibold text-lg text-tinta mb-2">Terrario Cuadra</h3>
+            <p class="text-slate-600 text-sm mb-4 flex-1">Vivero de plantas de interior con entrega en CDMX. Identidad clara en salvia y mostaza, con tarjetas de producto que indican nivel de riego.</p>
+            <a href="terrario-cuadra-final.html" target="_blank" rel="noopener noreferrer" class="link-underline inline-flex items-center gap-1 text-tinta text-sm font-semibold self-start">Ver sitio completo <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NOSOTROS ===== -->
+  <section id="about" class="py-24 bg-tinta-panel">
+    <div class="px-6 max-w-[1280px] mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="relative" data-reveal>
+          <div class="relative bg-papel p-6 rounded-2xl">
+            <img src="assets/df-marca-completa.png" alt="DF Software — Ciudad de México" class="w-full h-auto object-contain rounded-lg">
+          </div>
+        </div>
+        <div data-reveal data-reveal-delay="100">
+          <div class="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-jade/10 text-sm font-semibold text-jade">
+            <span class="material-symbols-outlined" style="font-size:16px;">auto_awesome</span>
+            Nuestra esencia
+          </div>
+          <h2 class="font-display font-semibold text-3xl md:text-4xl mb-6 text-papel">Innovación con alma de axolote</h2>
+          <p class="text-papel-dim text-lg leading-relaxed mb-10">
+            En DF Software combinamos la adaptabilidad de un axolote con tecnología de vanguardia. Nuestra filosofía de Código &amp; Innovación nos permite responder soluciones digitales complejas con herramientas simples y poderosas para tu negocio.
+          </p>
+          <div class="grid grid-cols-3 gap-6">
+            <div class="flex flex-col items-start gap-2">
+              <div class="w-10 h-10 rounded-lg bg-jade/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-jade">diversity_2</span>
+              </div>
+              <span class="text-sm font-semibold text-jade">Adaptabilidad</span>
+            </div>
+            <div class="flex flex-col items-start gap-2">
+              <div class="w-10 h-10 rounded-lg bg-jade/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-jade">shield_with_heart</span>
+              </div>
+              <span class="text-sm font-semibold text-jade">Resiliencia</span>
+            </div>
+            <div class="flex flex-col items-start gap-2">
+              <div class="w-10 h-10 rounded-lg bg-jade/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-jade">rocket_launch</span>
+              </div>
+              <span class="text-sm font-semibold text-jade">Innovación</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section id="contact" class="py-24 bg-tinta">
+    <div class="px-6 max-w-[1280px] mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div class="flex flex-col justify-center">
+          <h2 class="font-display font-semibold text-3xl md:text-4xl mb-6 text-papel">¿Listo para conectar con el futuro?</h2>
+          <p class="text-papel-dim text-lg leading-relaxed mb-10">
+            Ponte en contacto con nosotros para transformar tus ideas en soluciones digitales reales. Estamos aquí para ayudarte a escalar tu negocio.
+          </p>
+          <div class="flex flex-col gap-6 mb-10">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-lg bg-jade/10 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-jade">mail</span>
+              </div>
+              <div>
+                <h4 class="text-sm font-semibold text-papel">Correo corporativo</h4>
+                <a href="mailto:dfsoftware9@gmail.com" class="text-papel-dim hover:text-papel transition-colors">dfsoftware9@gmail.com</a>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-lg bg-jade/10 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-jade">location_on</span>
+              </div>
+              <div>
+                <h4 class="text-sm font-semibold text-papel">Ubicación</h4>
+                <p class="text-papel-dim">Ciudad de México, México</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-tinta-panel p-8 md:p-10 rounded-2xl border border-line">
+          <form id="contactForm" class="flex flex-col gap-6">
+            <div>
+              <label for="name" class="block text-sm font-semibold mb-2 text-papel">Nombre completo</label>
+              <input id="name" name="name" type="text" required placeholder="Tu nombre"
+                class="w-full bg-tinta border border-line rounded-lg px-4 py-3 text-papel placeholder:text-papel-dim/50 focus:outline-none focus:ring-2 focus:ring-jade/50 focus:border-jade transition-all">
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-semibold mb-2 text-papel">Correo electrónico</label>
+              <input id="email" name="email" type="email" required placeholder="tu@correo.com"
+                class="w-full bg-tinta border border-line rounded-lg px-4 py-3 text-papel placeholder:text-papel-dim/50 focus:outline-none focus:ring-2 focus:ring-jade/50 focus:border-jade transition-all">
+            </div>
+            <div>
+              <label for="subject" class="block text-sm font-semibold mb-2 text-papel">Asunto</label>
+              <input id="subject" name="subject" type="text" required placeholder="¿En qué podemos ayudarte?"
+                class="w-full bg-tinta border border-line rounded-lg px-4 py-3 text-papel placeholder:text-papel-dim/50 focus:outline-none focus:ring-2 focus:ring-jade/50 focus:border-jade transition-all">
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-semibold mb-2 text-papel">Mensaje</label>
+              <textarea id="message" name="message" rows="4" required placeholder="Cuéntanos más sobre tu proyecto..."
+                class="w-full bg-tinta border border-line rounded-lg px-4 py-3 text-papel placeholder:text-papel-dim/50 focus:outline-none focus:ring-2 focus:ring-jade/50 focus:border-jade transition-all"></textarea>
+            </div>
+            <button type="submit" id="submitBtn" class="btn-primary w-full inline-flex items-center justify-center gap-2 text-tinta font-bold rounded px-8 py-4 bg-tule disabled:opacity-60 disabled:cursor-not-allowed">
+              Enviar mensaje
+              <span class="material-symbols-outlined">send</span>
+            </button>
+            <p id="formNote" class="text-xs text-papel-dim text-center" role="status" aria-live="polite">Te responderemos a la brevedad.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-tinta-panel border-t border-line text-papel-dim pt-16 pb-8">
+  <div class="px-6 max-w-[1280px] mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+      <div class="flex flex-col gap-4">
+        <span class="font-display font-bold text-lg"><span class="wordmark-df">DF</span> <span class="wordmark-software">Software</span></span>
+        <p class="text-sm leading-relaxed">Expertos en desarrollo web y software a medida, transformando ideas en soluciones digitales innovadoras.</p>
+      </div>
+      <div>
+        <h4 class="font-display font-semibold text-papel mb-4">Empresa</h4>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li><a href="index.html#services" class="hover:text-jade transition-colors">Servicios</a></li>
+          <li><a href="index.html#pricing" class="hover:text-jade transition-colors">Precios</a></li>
+          <li><a href="index.html#portfolio" class="hover:text-jade transition-colors">Portafolio</a></li>
+          <li><a href="index.html#process" class="hover:text-jade transition-colors">Proceso</a></li>
+          <li><a href="index.html#about" class="hover:text-jade transition-colors">Sobre Nosotros</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-display font-semibold text-papel mb-4">Servicios</h4>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li><a href="servicios/desarrollo-web.html" class="hover:text-jade transition-colors">Desarrollo Web</a></li>
+          <li><a href="servicios/aplicaciones-medida.html" class="hover:text-jade transition-colors">Aplicaciones a Medida</a></li>
+          <li><a href="servicios/mantenimiento-soporte.html" class="hover:text-jade transition-colors">Mantenimiento y Soporte</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-display font-semibold text-papel mb-4">Contacto</h4>
+        <p class="text-sm mb-2">Ciudad de México, México</p>
+        <a href="mailto:dfsoftware9@gmail.com" class="text-sm hover:text-jade transition-colors">dfsoftware9@gmail.com</a>
+      </div>
+    </div>
+    <div class="pt-8 border-t border-line text-center text-sm">
+      © 2026 DF Software. Código &amp; Innovación. Todos los derechos reservados.
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('menuBtn').addEventListener('click', function () {
+    const menu = document.getElementById('mobileMenu');
+    const isOpen = menu.classList.contains('flex');
+    menu.classList.toggle('hidden');
+    menu.classList.toggle('flex');
+    this.setAttribute('aria-expanded', String(!isOpen));
+  });
+  document.querySelectorAll('#mobileMenu a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      document.getElementById('mobileMenu').classList.add('hidden');
+      document.getElementById('mobileMenu').classList.remove('flex');
+    });
+  });
+
+  // Header: transición de fondo transparente -> tinta con blur al hacer scroll.
+  (function () {
+    const header = document.getElementById('siteHeader');
+    function updateHeader() {
+      if (window.scrollY > 24) {
+        header.classList.add('bg-tinta/90', 'backdrop-blur-md', 'border-line');
+      } else {
+        header.classList.remove('bg-tinta/90', 'backdrop-blur-md', 'border-line');
+      }
+    }
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    updateHeader();
+  })();
+
+  // Scroll-reveal: fade + translateY al entrar en viewport, una sola vez,
+  // con stagger opcional vía data-reveal-delay (ms).
+  (function () {
+    const els = document.querySelectorAll('[data-reveal]');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('is-revealed'); });
+      return;
+    }
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const delay = parseInt(el.dataset.revealDelay || '0', 10);
+          setTimeout(function () { el.classList.add('is-revealed'); }, delay);
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+
+  // Círculos del proceso: un único momento orquestado de trazo animado
+  // (stroke-dasharray) cuando la sección entra en viewport.
+  (function () {
+    const section = document.getElementById('process');
+    const rings = document.querySelectorAll('[data-process-ring]');
+    if (!section || !rings.length || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          rings.forEach(function (ring, i) {
+            setTimeout(function () {
+              const progress = ring.querySelector('.process-ring-progress');
+              if (progress) progress.style.strokeDashoffset = '0';
+            }, i * 70);
+          });
+          io.unobserve(section);
+        }
+      });
+    }, { threshold: 0.3 });
+    io.observe(section);
+  })();
+
+  // Escala los iframes de vista previa del portafolio para que se vea la
+  // página completa en miniatura, sin importar el ancho de la tarjeta.
+  function scalePortfolioPreviews() {
+    document.querySelectorAll('.preview[data-frame-width]').forEach(function (preview) {
+      const frameW = parseFloat(preview.dataset.frameWidth);
+      const frameH = parseFloat(preview.dataset.frameHeight);
+      const scale = preview.clientWidth / frameW;
+      const iframe = preview.querySelector('iframe');
+      iframe.style.width = frameW + 'px';
+      iframe.style.height = frameH + 'px';
+      iframe.style.transform = 'scale(' + scale + ')';
+    });
+  }
+  window.addEventListener('load', scalePortfolioPreviews);
+  window.addEventListener('resize', scalePortfolioPreviews);
+
+  // Formulario de contacto.
+  // Crea un formulario en https://formspree.io, copia su endpoint
+  // (https://formspree.io/f/XXXXXXX) y pégalo abajo para que el envío se
+  // haga por AJAX sin salir del sitio. Mientras FORM_ENDPOINT tenga el
+  // valor de ejemplo, el formulario usa mailto como respaldo para no
+  // perder ningún mensaje.
+  const FORM_ENDPOINT = 'https://formspree.io/f/xkjwbbwp';
+
+  const contactForm = document.getElementById('contactForm');
+  const formNote = document.getElementById('formNote');
+  const submitBtn = document.getElementById('submitBtn');
+
+  function sendViaMailto(name, email, subject, message) {
+    const body = `Nombre: ${name}\nCorreo: ${email}\n\n${message}`;
+    window.location.href = `mailto:dfsoftware9@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }
+
+  contactForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+
+    if (FORM_ENDPOINT.includes('YOUR_FORM_ID')) {
+      sendViaMailto(name, email, subject, message);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    formNote.textContent = 'Enviando...';
+
+    fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      body: new FormData(contactForm),
+      headers: { Accept: 'application/json' },
+    })
+      .then(function (response) {
+        if (response.ok) {
+          contactForm.reset();
+          formNote.textContent = '¡Gracias! Te responderemos pronto.';
+        } else {
+          formNote.textContent = 'No pudimos enviar tu mensaje. Escríbenos a dfsoftware9@gmail.com.';
+        }
+      })
+      .catch(function () {
+        formNote.textContent = 'No pudimos enviar tu mensaje. Escríbenos a dfsoftware9@gmail.com.';
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+      });
+  });
+</script>
+</body>
+</html>

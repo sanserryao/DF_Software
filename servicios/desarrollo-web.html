@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desarrollo Web — DF Software</title>
+<link rel="icon" type="image/png" href="../assets/df-icono.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { tinta: "#0A211F", "tinta-panel": "#0F2C29", papel: "#F4EEE2", "papel-dim": "#B9AE9C", jade: "#3FAE8A", tule: "#D9A441", line: "#1C3F3A" },
+    fontFamily: { display: ["Hanken Grotesk", "sans-serif"], body: ["Inter", "sans-serif"] },
+    boxShadow: { low: "0px 4px 20px rgba(0, 0, 0, 0.18)" },
+  } } };
+</script>
+<style>
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  .wordmark-df { color: #F4EEE2; }
+  .wordmark-software { color: #3FAE8A; }
+  .btn-primary { transition: transform 180ms ease-out, box-shadow 180ms ease-out; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(217,164,65,0.28); }
+  .btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: 0 4px 12px rgba(217,164,65,0.2); }
+  .link-underline { position: relative; }
+  .link-underline::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px;
+    background: currentColor; transform: scaleX(0); transform-origin: left;
+    transition: transform 200ms ease-out;
+  }
+  .link-underline:hover::after { transform: scaleX(1); }
+  .card-hover { transition: transform 200ms ease-out, border-color 200ms ease-out; }
+  .card-hover:hover { transform: translateY(-4px); border-color: rgba(63,174,138,0.35); }
+  [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity 450ms ease-out, transform 450ms ease-out; }
+  [data-reveal].is-revealed { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body class="bg-tinta text-papel-dim font-body antialiased overflow-x-hidden">
+
+<header id="siteHeader" class="fixed top-0 w-full z-50 border-b border-transparent transition-colors duration-300">
+  <div class="flex justify-between items-center px-6 py-4 max-w-[1280px] mx-auto">
+    <a href="../index.html" class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-jade text-lg">arrow_back</span>
+      <span class="font-display font-bold text-lg"><span class="wordmark-df">DF</span> <span class="wordmark-software">Software</span></span>
+    </a>
+    <a href="../index.html#contact" class="btn-primary hidden sm:inline-flex items-center justify-center text-tinta font-bold text-sm rounded px-6 py-3 bg-tule">
+      Solicitar cotización
+    </a>
+  </div>
+</header>
+
+<main class="pt-24">
+  <section class="pt-16 pb-16 px-6 text-center max-w-3xl mx-auto" data-reveal>
+    <div class="inline-block px-3 py-1 bg-jade/10 text-jade rounded-full text-xs font-semibold mb-6">SERVICIO</div>
+    <h1 class="font-display font-bold text-4xl md:text-5xl mb-4 leading-tight text-papel">Desarrollo Web de <span class="text-jade">Alto Rendimiento</span></h1>
+    <p class="text-papel-dim text-lg mb-8 max-w-xl mx-auto">Creamos arquitecturas digitales robustas, escalables y optimizadas para convertir visitantes en clientes.</p>
+    <a href="../index.html#contact" class="btn-primary inline-flex items-center gap-2 bg-tule text-tinta font-bold py-4 px-8 rounded">
+      Consultar proyecto <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </section>
+
+  <section class="py-16 px-6 max-w-[1000px] mx-auto">
+    <h2 class="text-xl font-semibold mb-8 text-center text-papel-dim" data-reveal>Nuestro Tech Stack</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="card-hover bg-tinta-panel border border-transparent p-4 rounded-2xl flex flex-col items-center gap-2 text-center" data-reveal data-reveal-delay="0">
+        <div class="w-10 h-10 bg-jade/10 rounded-lg flex items-center justify-center text-jade"><span class="material-symbols-outlined">javascript</span></div>
+        <span class="text-sm font-medium text-papel">React / Next.js</span>
+      </div>
+      <div class="card-hover bg-tinta-panel border border-transparent p-4 rounded-2xl flex flex-col items-center gap-2 text-center" data-reveal data-reveal-delay="70">
+        <div class="w-10 h-10 bg-jade/10 rounded-lg flex items-center justify-center text-jade"><span class="material-symbols-outlined">storage</span></div>
+        <span class="text-sm font-medium text-papel">Node.js / SQL</span>
+      </div>
+      <div class="card-hover bg-tinta-panel border border-transparent p-4 rounded-2xl flex flex-col items-center gap-2 text-center" data-reveal data-reveal-delay="140">
+        <div class="w-10 h-10 bg-jade/10 rounded-lg flex items-center justify-center text-jade"><span class="material-symbols-outlined">palette</span></div>
+        <span class="text-sm font-medium text-papel">Tailwind CSS</span>
+      </div>
+      <div class="card-hover bg-tinta-panel border border-transparent p-4 rounded-2xl flex flex-col items-center gap-2 text-center" data-reveal data-reveal-delay="210">
+        <div class="w-10 h-10 bg-jade/10 rounded-lg flex items-center justify-center text-jade"><span class="material-symbols-outlined">cloud_done</span></div>
+        <span class="text-sm font-medium text-papel">Vercel / AWS</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6 bg-tinta-panel">
+    <div class="max-w-[800px] mx-auto">
+      <div class="mb-12" data-reveal>
+        <h2 class="text-2xl font-display font-bold mb-2 text-papel">Por qué elegirnos</h2>
+        <div class="h-1 w-12 bg-jade"></div>
+      </div>
+      <div class="grid md:grid-cols-1 gap-8">
+        <div class="flex gap-4" data-reveal data-reveal-delay="0">
+          <div class="mt-1 text-jade"><span class="material-symbols-outlined">bolt</span></div>
+          <div>
+            <h3 class="text-lg font-bold mb-1 text-papel">Velocidad Extrema</h3>
+            <p class="text-sm text-papel-dim">Optimizamos los Core Web Vitals para asegurar tiempos de carga menores a 2 segundos.</p>
+          </div>
+        </div>
+        <div class="flex gap-4" data-reveal data-reveal-delay="70">
+          <div class="mt-1 text-jade"><span class="material-symbols-outlined">search</span></div>
+          <div>
+            <h3 class="text-lg font-bold mb-1 text-papel">Optimización SEO</h3>
+            <p class="text-sm text-papel-dim">Estructura semántica preparada para escalar en los rankings de Google desde el día uno.</p>
+          </div>
+        </div>
+        <div class="flex gap-4" data-reveal data-reveal-delay="140">
+          <div class="mt-1 text-jade"><span class="material-symbols-outlined">security</span></div>
+          <div>
+            <h3 class="text-lg font-bold mb-1 text-papel">Seguridad Avanzada</h3>
+            <p class="text-sm text-papel-dim">Certificados SSL, protección contra inyecciones SQL y auditorías de seguridad constantes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6 text-center" data-reveal>
+    <h2 class="text-2xl font-display font-bold mb-6 text-papel">¿Tienes un proyecto en mente?</h2>
+    <a href="../index.html#contact" class="btn-primary inline-flex items-center gap-2 bg-tule text-tinta font-bold py-4 px-8 rounded">
+      Hablemos de tu sitio web <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </section>
+</main>
+
+<footer class="bg-tinta-panel border-t border-line py-12 px-6 text-center">
+  <div class="text-xl font-display font-bold mb-6"><span class="wordmark-df">DF</span> <span class="wordmark-software">Software</span></div>
+  <div class="flex justify-center gap-6 mb-8 text-papel-dim text-sm">
+    <a href="../index.html#about" class="hover:text-jade transition-colors">Nosotros</a>
+    <a href="../index.html#portfolio" class="hover:text-jade transition-colors">Portafolio</a>
+    <a href="../index.html#contact" class="hover:text-jade transition-colors">Contacto</a>
+  </div>
+  <p class="text-xs text-papel-dim/70">© 2026 DF Software. Diseñando el futuro digital.</p>
+</footer>
+
+<script>
+  (function () {
+    const header = document.getElementById('siteHeader');
+    function updateHeader() {
+      if (window.scrollY > 24) {
+        header.classList.add('bg-tinta/90', 'backdrop-blur-md', 'border-line');
+      } else {
+        header.classList.remove('bg-tinta/90', 'backdrop-blur-md', 'border-line');
+      }
+    }
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    updateHeader();
+  })();
+
+  (function () {
+    const els = document.querySelectorAll('[data-reveal]');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('is-revealed'); });
+      return;
+    }
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const delay = parseInt(el.dataset.revealDelay || '0', 10);
+          setTimeout(function () { el.classList.add('is-revealed'); }, delay);
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>

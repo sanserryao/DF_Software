@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Humo &amp; Sal — Mezcalería de barrio, CDMX</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Work+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:#1B1714;
+    --bg-alt:#241D18;
+    --ink:#F2E9DD;
+    --ink-dim:#B9AC9A;
+    --copper:#C97A3D;
+    --agave:#7A8B5C;
+    --line:#3A2F27;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+  }
+  .display{font-family:'Fraunces', serif;}
+  .mono{font-family:'IBM Plex Mono', monospace; letter-spacing:0.02em;}
+
+  nav{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:28px 6vw; border-bottom:1px solid var(--line);
+  }
+  .logo{font-family:'Fraunces', serif; font-size:1.3rem; letter-spacing:0.02em;}
+  .logo span{color:var(--copper);}
+  nav a{color:var(--ink-dim); text-decoration:none; font-size:0.9rem; margin-left:28px;}
+  nav a:hover{color:var(--ink);}
+
+  header.hero{
+    position:relative; overflow:hidden;
+    padding:90px 6vw 110px;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;
+  }
+  .smoke{
+    position:absolute; inset:0; z-index:0; opacity:0.55; pointer-events:none;
+  }
+  .hero-copy{position:relative; z-index:1;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; text-transform:uppercase; font-size:0.75rem;
+    letter-spacing:0.14em; color:var(--copper); margin-bottom:18px; display:block;
+  }
+  h1{
+    font-family:'Fraunces', serif; font-weight:600; font-size:clamp(2.4rem, 5vw, 4rem);
+    line-height:1.05; margin-bottom:22px;
+  }
+  h1 em{color:var(--copper); font-style:italic; font-weight:500;}
+  .lede{color:var(--ink-dim); font-size:1.05rem; max-width:32ch; margin-bottom:34px;}
+  .cta-row{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    padding:13px 26px; border-radius:2px; font-size:0.9rem; text-decoration:none;
+    border:1px solid var(--copper); color:var(--ink); transition:0.2s;
+  }
+  .btn.solid{background:var(--copper); border-color:var(--copper); color:#1B1714; font-weight:500;}
+  .btn.solid:hover{background:#e08f4f;}
+  .btn.ghost:hover{background:rgba(201,122,61,0.1);}
+
+  .agave-mark{position:relative; z-index:1; justify-self:center;}
+
+  .strip{
+    display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .strip div{
+    padding:26px 6vw; border-right:1px solid var(--line);
+  }
+  .strip div:last-child{border-right:none;}
+  .strip .num{font-family:'IBM Plex Mono'; color:var(--copper); font-size:0.8rem; display:block; margin-bottom:6px;}
+  .strip .label{font-family:'Fraunces'; font-size:1.05rem;}
+
+  section{padding:80px 6vw;}
+  .section-head{max-width:44ch; margin-bottom:52px;}
+  .section-head .eyebrow{color:var(--agave);}
+  .section-head h2{font-family:'Fraunces'; font-weight:600; font-size:2.1rem;}
+
+  .menu-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  .menu-item{background:var(--bg); padding:28px; display:flex; justify-content:space-between; gap:16px;}
+  .thumb{width:96px; height:96px; flex-shrink:0; overflow:hidden; border-radius:2px; margin-right:16px;}
+  .menu-item h3{font-family:'Fraunces'; font-size:1.2rem; margin-bottom:6px; font-weight:500;}
+  .menu-item p{color:var(--ink-dim); font-size:0.88rem; max-width:34ch;}
+  .price{font-family:'IBM Plex Mono'; color:var(--copper); white-space:nowrap;}
+
+  .story{
+    display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px; align-items:center;
+    background:var(--bg-alt); border-radius:2px;
+  }
+  .story blockquote{
+    font-family:'Fraunces'; font-style:italic; font-size:1.4rem; line-height:1.4;
+    border-left:2px solid var(--agave); padding-left:24px; color:var(--ink);
+  }
+  .story cite{display:block; margin-top:18px; font-style:normal; color:var(--ink-dim); font-size:0.85rem;}
+
+  footer{
+    padding:50px 6vw; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px;
+    color:var(--ink-dim); font-size:0.85rem;
+  }
+  footer a{color:var(--ink-dim);}
+
+  @media (max-width:760px){
+    header.hero{grid-template-columns:1fr;}
+    .strip{grid-template-columns:1fr;}
+    .strip div{border-right:none; border-bottom:1px solid var(--line);}
+    .menu-grid{grid-template-columns:1fr;}
+    .story{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<nav>
+<div class="logo">Humo<span>&amp;</span>Sal</div>
+<div>
+<a href="#carta">Carta</a>
+<a href="#historia">Historia</a>
+<a href="#visita">Visítanos</a>
+</div>
+</nav>
+<header class="hero">
+<svg class="smoke" preserveaspectratio="xMidYMid slice" viewbox="0 0 800 600">
+<defs>
+<lineargradient id="wisp" x1="0" x2="0" y1="1" y2="0">
+<stop offset="0%" stop-color="#C97A3D" stop-opacity="0"></stop>
+<stop offset="100%" stop-color="#C97A3D" stop-opacity="0.35"></stop>
+</lineargradient>
+</defs>
+<path d="M100,600 C150,450 50,400 120,300 C180,220 90,150 150,60" fill="none" stroke="url(#wisp)" stroke-linecap="round" stroke-width="60"></path>
+<path d="M650,600 C600,470 700,420 630,320 C580,240 680,160 610,40" fill="none" opacity="0.7" stroke="url(#wisp)" stroke-linecap="round" stroke-width="50"></path>
+</svg>
+<div class="hero-copy">
+<span class="eyebrow">Mezcalería de barrio — Coyoacán, CDMX</span>
+<h1>Se toma <em>despacio</em>.<br/>Se come con las manos.</h1>
+<p class="lede">Mezcales de productor traídos directo de Oaxaca y una carta corta de antojitos hechos al carbón. Sin coctelería de autor, sin pretensiones — solo lo que sabe bien.</p>
+<div class="cta-row">
+<a class="btn solid" href="#carta">Ver la carta</a>
+<a class="btn ghost" href="#visita">Cómo llegar</a>
+</div>
+</div>
+<div class="agave-mark w-full h-full overflow-hidden rounded-sm shadow-2xl" style="aspect-ratio:4/3; background:linear-gradient(180deg,#241D18,#1B1714);">
+<svg viewBox="0 0 400 300" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="lamp1" cx="50%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#E8A55C" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#E8A55C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A3526"/>
+      <stop offset="100%" stop-color="#2B1E15"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="#1B1714"/>
+  <circle cx="200" cy="10" r="120" fill="url(#lamp1)"/>
+  <rect x="0" y="190" width="400" height="110" fill="url(#wood)"/>
+  <line x1="0" y1="192" x2="400" y2="192" stroke="#C97A3D" stroke-width="1.5" opacity="0.6"/>
+  <g stroke="#3A2F27" stroke-width="1">
+    <line x1="0" y1="230" x2="400" y2="230"/>
+    <line x1="0" y1="265" x2="400" y2="265"/>
+  </g>
+  <!-- bottles -->
+  <g fill="#7A8B5C" opacity="0.85">
+    <rect x="40" y="140" width="16" height="50" rx="2"/>
+    <rect x="45" y="120" width="6" height="22" rx="1"/>
+    <rect x="70" y="150" width="14" height="40" rx="2"/>
+    <rect x="74" y="132" width="6" height="20" rx="1"/>
+  </g>
+  <g fill="#C97A3D" opacity="0.85">
+    <rect x="100" y="135" width="15" height="55" rx="2"/>
+    <rect x="105" y="115" width="5" height="22" rx="1"/>
+    <rect x="330" y="145" width="14" height="45" rx="2"/>
+    <rect x="334" y="128" width="6" height="19" rx="1"/>
+    <rect x="355" y="138" width="16" height="52" rx="2"/>
+    <rect x="360" y="118" width="6" height="22" rx="1"/>
+  </g>
+  <!-- pendant lamps -->
+  <g stroke="#C97A3D" stroke-width="1.5" opacity="0.7">
+    <line x1="120" y1="0" x2="120" y2="55"/>
+    <line x1="280" y1="0" x2="280" y2="50"/>
+  </g>
+  <ellipse cx="120" cy="60" rx="18" ry="8" fill="#E8A55C" opacity="0.55"/>
+  <ellipse cx="280" cy="55" rx="16" ry="7" fill="#E8A55C" opacity="0.5"/>
+  <!-- glass with orange slice -->
+  <g transform="translate(190,220)">
+    <path d="M0,0 L34,0 L28,42 L6,42 Z" fill="#2B1E15" stroke="#C97A3D" stroke-width="1.2" opacity="0.9"/>
+    <ellipse cx="17" cy="8" rx="14" ry="3" fill="#E8A55C" opacity="0.5"/>
+    <circle cx="45" cy="30" r="9" fill="none" stroke="#C97A3D" stroke-width="1.5" opacity="0.8"/>
+  </g>
+  <!-- silhouette figure -->
+  <g fill="#0F0C0A" opacity="0.75">
+    <ellipse cx="330" cy="205" rx="10" ry="12"/>
+    <path d="M312,260 C312,225 350,225 350,260 L350,270 L312,270 Z"/>
+  </g>
+</svg>
+</div>
+</header>
+<div class="strip">
+<div><span class="num">01</span><span class="label">+40 mezcales de productor</span></div>
+<div><span class="num">02</span><span class="label">Antojitos al carbón</span></div>
+<div><span class="num">03</span><span class="label">Abierto mar–dom, 5pm–1am</span></div>
+</div>
+<section id="carta">
+<div class="section-head">
+<span class="eyebrow mono">La carta</span>
+<h2>Corta a propósito.</h2>
+</div>
+<div class="menu-grid">
+<div class="menu-item">
+<div class="thumb" style="background:#2B1E15;">
+<svg viewBox="0 0 100 100" width="100%" height="100%">
+  <circle cx="50" cy="50" r="46" fill="#3A2F27"/>
+  <circle cx="50" cy="50" r="38" fill="#C9A15A"/>
+  <circle cx="50" cy="50" r="30" fill="#B9803A" opacity="0.9"/>
+  <g fill="#7A8B5C" opacity="0.85">
+    <circle cx="38" cy="42" r="4"/>
+    <circle cx="60" cy="38" r="4"/>
+    <circle cx="52" cy="60" r="4"/>
+    <circle cx="66" cy="55" r="3.5"/>
+  </g>
+  <path d="M30,58 Q50,72 70,56" stroke="#8C4A2B" stroke-width="3" fill="none" opacity="0.7"/>
+</svg>
+</div>
+<div><h3>Tlayuda Humo &amp; Sal</h3><p>Frijol, quesillo, tasajo al carbón, salsa de chile de árbol tatemado.</p></div>
+<span class="price">$185</span>
+</div>
+<div class="menu-item">
+<div class="thumb" style="background:#2B1E15;">
+<svg viewBox="0 0 100 100" width="100%" height="100%">
+  <rect width="100" height="100" fill="#241D18"/>
+  <path d="M35,20 L65,20 L58,58 L42,58 Z" fill="none" stroke="#C97A3D" stroke-width="2"/>
+  <path d="M39,32 L61,32" stroke="#C97A3D" stroke-width="1.2" opacity="0.6"/>
+  <rect x="42" y="58" width="16" height="26" fill="#8C5228" opacity="0.85"/>
+  <circle cx="75" cy="30" r="10" fill="none" stroke="#7A8B5C" stroke-width="1.5" opacity="0.7"/>
+  <path d="M75,20 Q80,15 85,20" stroke="#7A8B5C" stroke-width="1.5" fill="none" opacity="0.7"/>
+</svg>
+</div>
+<div><h3>Mezcal Espadín · copeo</h3><p>Productor familiar, San Luis del Río. Servido con sal de gusano y naranja.</p></div>
+<span class="price">$120</span>
+</div>
+<div class="menu-item">
+<div class="thumb" style="background:#2B1E15;">
+<svg viewBox="0 0 100 100" width="100%" height="100%">
+  <rect width="100" height="100" fill="#3A2F27"/>
+  <ellipse cx="50" cy="55" rx="38" ry="30" fill="#C9A15A" opacity="0.4"/>
+  <g fill="#8C4A2B">
+    <rect x="28" y="30" width="10" height="46" rx="4" transform="rotate(-8 33 53)"/>
+    <rect x="42" y="26" width="10" height="50" rx="4" transform="rotate(-2 47 51)"/>
+    <rect x="56" y="30" width="10" height="46" rx="4" transform="rotate(6 61 53)"/>
+  </g>
+  <g fill="#C97A3D" opacity="0.9">
+    <circle cx="30" cy="62" r="5"/>
+    <circle cx="68" cy="58" r="4.5"/>
+  </g>
+  <g fill="#7A8B5C" opacity="0.8">
+    <circle cx="45" cy="70" r="3"/>
+    <circle cx="58" cy="72" r="3"/>
+  </g>
+</svg>
+</div>
+<div><h3>Costilla al pastor</h3><p>Adobo de 24 horas, piña asada, cebolla morada encurtida en casa.</p></div>
+<span class="price">$210</span>
+</div>
+<div class="menu-item">
+<div class="thumb" style="background:#2B1E15;">
+<svg viewBox="0 0 100 100" width="100%" height="100%">
+  <rect width="100" height="100" fill="#241D18"/>
+  <path d="M33,18 L67,18 L60,56 L40,56 Z" fill="none" stroke="#7A8B5C" stroke-width="2"/>
+  <path d="M37,30 L63,30" stroke="#7A8B5C" stroke-width="1.2" opacity="0.6"/>
+  <rect x="40" y="56" width="20" height="30" fill="#5A6B45" opacity="0.85"/>
+  <g stroke="#C97A3D" stroke-width="1.3" opacity="0.7">
+    <path d="M20,75 Q28,65 20,55"/>
+    <path d="M80,72 Q72,62 80,50"/>
+  </g>
+</svg>
+</div>
+<div><h3>Mezcal Tobalá · copeo</h3><p>Silvestre, tiraje limitado. Se acaba cuando se acaba.</p></div>
+<span class="price">$190</span>
+</div>
+</div>
+</section>
+<section id="historia">
+<div class="story" style="padding:56px 6vw;">
+<div>
+<span class="eyebrow mono" style="color:var(--agave);">Desde 2019</span>
+<h2 style="font-family:'Fraunces'; font-size:2rem; margin-top:14px;">Un patio, un comal, y palenqueros que conocemos por nombre.</h2>
+</div>
+<blockquote>
+      "No vendemos mezcal de catálogo. Cada botella tiene a alguien detrás — visitamos el palenque, probamos el lote, y si no nos convence, no entra a la carta."
+      <cite>— Fundadores, Humo &amp; Sal</cite>
+</blockquote>
+</div>
+</section>
+<footer id="visita">
+<div>
+<div class="logo" style="margin-bottom:8px;">Humo<span>&amp;</span>Sal</div>
+<p>Francisco Sosa 145, Coyoacán, CDMX</p>
+</div>
+<div>
+<p><a href="#">Instagram</a> · <a href="#">Reservaciones</a> · <a href="#">Menú para llevar</a></p>
+<p style="margin-top:10px;">© 2026 Humo &amp; Sal</p>
+</div>
+</footer>
+</body>
+</html>
