@@ -4,166 +4,122 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aplicaciones a Medida — DF Software</title>
+<meta name="theme-color" content="#F8FAFC">
 <link rel="icon" type="image/png" href="../assets/df-icono.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="../assets/tailwind.config.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<script>
-  tailwind.config = { theme: { extend: {
-    colors: { tinta: "#0A211F", "tinta-panel": "#0F2C29", papel: "#F4EEE2", "papel-dim": "#B9AE9C", jade: "#3FAE8A", tule: "#D9A441", line: "#1C3F3A" },
-    fontFamily: { display: ["Hanken Grotesk", "sans-serif"], body: ["Inter", "sans-serif"] },
-    boxShadow: { low: "0px 4px 20px rgba(0, 0, 0, 0.18)" },
-  } } };
-</script>
-<style>
-  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
-  .wordmark-df { color: #F4EEE2; }
-  .wordmark-software { color: #3FAE8A; }
-  .btn-primary { transition: transform 180ms ease-out, box-shadow 180ms ease-out; }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(217,164,65,0.28); }
-  .btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: 0 4px 12px rgba(217,164,65,0.2); }
-  .link-underline { position: relative; }
-  .link-underline::after {
-    content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px;
-    background: currentColor; transform: scaleX(0); transform-origin: left;
-    transition: transform 200ms ease-out;
-  }
-  .link-underline:hover::after { transform: scaleX(1); }
-  .card-hover { transition: transform 200ms ease-out, border-color 200ms ease-out; }
-  .card-hover:hover { transform: translateY(-4px); border-color: rgba(63,174,138,0.35); }
-  [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity 450ms ease-out, transform 450ms ease-out; }
-  [data-reveal].is-revealed { opacity: 1; transform: translateY(0); }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 </head>
-<body class="bg-tinta text-papel-dim font-body antialiased overflow-x-hidden">
+<body class="relative isolate bg-slate-50 font-sans text-slate-600 antialiased">
+<a href="#main" class="skip-link">Saltar al contenido</a>
 
-<header id="siteHeader" class="fixed top-0 w-full z-50 border-b border-transparent transition-colors duration-300">
-  <div class="flex justify-between items-center px-6 py-4 max-w-[1280px] mx-auto">
-    <a href="../index.html" class="flex items-center gap-2">
-      <span class="material-symbols-outlined text-jade text-lg">arrow_back</span>
-      <span class="font-display font-bold text-lg"><span class="wordmark-df">DF</span> <span class="wordmark-software">Software</span></span>
+<div class="mesh-hero absolute inset-x-0 top-0 -z-10 h-[640px]" aria-hidden="true">
+  <div class="grid-lines absolute inset-0"></div>
+</div>
+
+<!-- ===== HEADER FLOTANTE ===== -->
+<header id="siteHeader" class="pointer-events-none sticky top-0 z-50 px-4 pt-4">
+  <div class="bar glass pointer-events-auto mx-auto flex max-w-6xl items-center justify-between rounded-2xl px-4 py-2.5 sm:px-5">
+    <a href="../index.html" class="flex items-center gap-2.5 rounded-lg" aria-label="DF Software — volver al inicio">
+      <span class="material-symbols-outlined text-xl text-jade-700">arrow_back</span>
+      <img src="../assets/df-icono.png" alt="" width="615" height="417" class="logo-blend h-9 w-auto">
+      <span class="text-lg font-bold tracking-[-0.02em]"><span class="text-bosque">DF</span> <span class="text-jade-700">Software</span></span>
     </a>
-    <a href="../index.html#contact" class="btn-primary hidden sm:inline-flex items-center justify-center text-tinta font-bold text-sm rounded px-6 py-3 bg-tule">
-      Solicitar cotización
-    </a>
+    <a href="../index.html#contact" class="btn-primary hidden px-5 py-2.5 text-sm sm:inline-flex">Solicitar cotización</a>
   </div>
 </header>
 
-<main class="pt-24">
-  <section class="pt-16 pb-16 px-6 text-center max-w-3xl mx-auto" data-reveal>
-    <div class="inline-block px-3 py-1 bg-jade/10 text-jade rounded-full text-xs font-semibold mb-6">SERVICIO</div>
-    <h1 class="font-display font-bold text-4xl md:text-5xl mb-4 leading-tight text-papel">Software a Medida para <span class="text-jade">tu Operación</span></h1>
-    <p class="text-papel-dim text-lg mb-8 max-w-xl mx-auto">Construimos herramientas internas, portales y sistemas que se ajustan a tus procesos, no al revés.</p>
-    <a href="../index.html#contact" class="btn-primary inline-flex items-center gap-2 bg-tule text-tinta font-bold py-4 px-8 rounded">
-      Consultar proyecto <span class="material-symbols-outlined">arrow_forward</span>
+<main id="main">
+  <!-- Hero -->
+  <section class="mx-auto max-w-3xl px-4 pb-16 pt-16 text-center sm:px-6 lg:pt-24" data-reveal>
+    <span class="mb-6 inline-block rounded-full border border-jade/30 bg-white/70 px-4 py-1.5 text-xs font-semibold tracking-wider text-jade-800 backdrop-blur">SERVICIO</span>
+    <h1 class="mb-5 text-balance text-4xl font-medium leading-[1.1] tracking-[-0.02em] text-ink md:text-5xl lg:text-6xl">Software a Medida para <span class="font-extrabold text-bosque">tu Operación</span></h1>
+    <p class="mx-auto mb-9 max-w-xl text-lg text-slate-600 sm:text-xl">Construimos herramientas internas, portales y sistemas que se ajustan a tus procesos, no al revés.</p>
+    <a href="../index.html#contact" class="btn-primary group px-7 py-4">
+      Consultar proyecto <span class="material-symbols-outlined transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
     </a>
   </section>
 
-  <section class="py-16 px-6 max-w-[1000px] mx-auto">
-    <h2 class="text-xl font-semibold mb-8 text-center text-papel-dim" data-reveal>Qué construimos</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="card-hover bg-tinta-panel border border-transparent p-4 rounded-2xl flex flex-col items-center gap-2 text-center" data-reveal data-reveal-delay="0">
-        <div class="w-10 h-10 bg-jade/10 rounded-lg flex items-center justify-center text-jade"><span class="material-symbols-outlined">dashboard</span></div>
-        <span class="text-sm font-medium text-papel">Paneles y dashboards</span>
+  <!-- Qué incluye -->
+  <section class="mx-auto max-w-5xl px-4 py-16 sm:px-6">
+    <h2 class="mb-10 text-center text-2xl font-bold tracking-[-0.02em] text-ink" data-reveal>Qué construimos</h2>
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div class="card-lift glass flex flex-col items-center gap-3 rounded-2xl p-5 text-center shadow-soft" data-reveal data-reveal-delay="0">
+        <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-mint-100 text-jade-800"><span class="material-symbols-outlined">dashboard</span></span>
+        <span class="text-sm font-semibold text-ink">Paneles y dashboards</span>
       </div>
-      <div class="card-hover bg-tinta-panel border border-transparent p-4 rounded-2xl flex flex-col items-center gap-2 text-center" data-reveal data-reveal-delay="70">
-        <div class="w-10 h-10 bg-jade/10 rounded-lg flex items-center justify-center text-jade"><span class="material-symbols-outlined">integration_instructions</span></div>
-        <span class="text-sm font-medium text-papel">Integraciones con APIs</span>
+      <div class="card-lift glass flex flex-col items-center gap-3 rounded-2xl p-5 text-center shadow-soft" data-reveal data-reveal-delay="70">
+        <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-mint-100 text-jade-800"><span class="material-symbols-outlined">integration_instructions</span></span>
+        <span class="text-sm font-semibold text-ink">Integraciones con APIs</span>
       </div>
-      <div class="card-hover bg-tinta-panel border border-transparent p-4 rounded-2xl flex flex-col items-center gap-2 text-center" data-reveal data-reveal-delay="140">
-        <div class="w-10 h-10 bg-jade/10 rounded-lg flex items-center justify-center text-jade"><span class="material-symbols-outlined">database</span></div>
-        <span class="text-sm font-medium text-papel">Bases de datos a medida</span>
+      <div class="card-lift glass flex flex-col items-center gap-3 rounded-2xl p-5 text-center shadow-soft" data-reveal data-reveal-delay="140">
+        <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-mint-100 text-jade-800"><span class="material-symbols-outlined">database</span></span>
+        <span class="text-sm font-semibold text-ink">Bases de datos a medida</span>
       </div>
-      <div class="card-hover bg-tinta-panel border border-transparent p-4 rounded-2xl flex flex-col items-center gap-2 text-center" data-reveal data-reveal-delay="210">
-        <div class="w-10 h-10 bg-jade/10 rounded-lg flex items-center justify-center text-jade"><span class="material-symbols-outlined">smartphone</span></div>
-        <span class="text-sm font-medium text-papel">Portales y apps internas</span>
+      <div class="card-lift glass flex flex-col items-center gap-3 rounded-2xl p-5 text-center shadow-soft" data-reveal data-reveal-delay="210">
+        <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-mint-100 text-jade-800"><span class="material-symbols-outlined">smartphone</span></span>
+        <span class="text-sm font-semibold text-ink">Portales y apps internas</span>
       </div>
     </div>
   </section>
 
-  <section class="py-16 px-6 bg-tinta-panel">
-    <div class="max-w-[800px] mx-auto">
+  <!-- Por qué elegirnos -->
+  <section class="mesh-soft py-20 lg:py-24">
+    <div class="mx-auto max-w-5xl px-4 sm:px-6">
       <div class="mb-12" data-reveal>
-        <h2 class="text-2xl font-display font-bold mb-2 text-papel">Por qué elegirnos</h2>
-        <div class="h-1 w-12 bg-jade"></div>
+        <h2 class="mb-3 text-2xl font-bold tracking-[-0.02em] text-ink md:text-3xl">Por qué elegirnos</h2>
+        <div class="h-1 w-12 rounded-full bg-gradient-to-r from-bosque to-jade"></div>
       </div>
-      <div class="grid md:grid-cols-1 gap-8">
-        <div class="flex gap-4" data-reveal data-reveal-delay="0">
-          <div class="mt-1 text-jade"><span class="material-symbols-outlined">tune</span></div>
-          <div>
-            <h3 class="text-lg font-bold mb-1 text-papel">Hecho a tu medida</h3>
-            <p class="text-sm text-papel-dim">Diseñamos el sistema alrededor de tu flujo de trabajo real, no de una plantilla genérica.</p>
-          </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="glass rounded-3xl p-7 shadow-soft" data-reveal data-reveal-delay="0">
+          <span class="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-mint-100 text-jade-800"><span class="material-symbols-outlined">tune</span></span>
+          <h3 class="mb-2 text-lg font-semibold tracking-[-0.01em] text-ink">Hecho a tu medida</h3>
+          <p class="text-sm leading-relaxed text-slate-600">Diseñamos el sistema alrededor de tu flujo de trabajo real, no de una plantilla genérica.</p>
         </div>
-        <div class="flex gap-4" data-reveal data-reveal-delay="70">
-          <div class="mt-1 text-jade"><span class="material-symbols-outlined">hub</span></div>
-          <div>
-            <h3 class="text-lg font-bold mb-1 text-papel">Conectado con tus herramientas</h3>
-            <p class="text-sm text-papel-dim">Integramos con lo que ya usas: CRMs, ERPs, pasarelas de pago y más.</p>
-          </div>
+        <div class="glass rounded-3xl p-7 shadow-soft" data-reveal data-reveal-delay="70">
+          <span class="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-mint-100 text-jade-800"><span class="material-symbols-outlined">hub</span></span>
+          <h3 class="mb-2 text-lg font-semibold tracking-[-0.01em] text-ink">Conectado con tus herramientas</h3>
+          <p class="text-sm leading-relaxed text-slate-600">Integramos con lo que ya usas: CRMs, ERPs, pasarelas de pago y más.</p>
         </div>
-        <div class="flex gap-4" data-reveal data-reveal-delay="140">
-          <div class="mt-1 text-jade"><span class="material-symbols-outlined">trending_up</span></div>
-          <div>
-            <h3 class="text-lg font-bold mb-1 text-papel">Pensado para crecer</h3>
-            <p class="text-sm text-papel-dim">Arquitectura escalable que acompaña a tu empresa conforme aumenta la demanda.</p>
-          </div>
+        <div class="glass rounded-3xl p-7 shadow-soft" data-reveal data-reveal-delay="140">
+          <span class="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-mint-100 text-jade-800"><span class="material-symbols-outlined">trending_up</span></span>
+          <h3 class="mb-2 text-lg font-semibold tracking-[-0.01em] text-ink">Pensado para crecer</h3>
+          <p class="text-sm leading-relaxed text-slate-600">Arquitectura escalable que acompaña a tu empresa conforme aumenta la demanda.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="py-16 px-6 text-center" data-reveal>
-    <h2 class="text-2xl font-display font-bold mb-6 text-papel">¿Tienes un proceso que digitalizar?</h2>
-    <a href="../index.html#contact" class="btn-primary inline-flex items-center gap-2 bg-tule text-tinta font-bold py-4 px-8 rounded">
-      Cuéntanos tu caso <span class="material-symbols-outlined">arrow_forward</span>
-    </a>
+  <!-- CTA final -->
+  <section class="px-4 py-20 sm:px-6 lg:py-24">
+    <div class="glass mx-auto max-w-3xl rounded-3xl bg-white/80 px-6 py-14 text-center shadow-soft sm:px-12" data-reveal>
+      <h2 class="mb-7 text-balance text-2xl font-bold tracking-[-0.02em] text-ink md:text-3xl">¿Tienes un proceso que digitalizar?</h2>
+      <a href="../index.html#contact" class="btn-primary group px-7 py-4">
+        Cuéntanos tu caso <span class="material-symbols-outlined transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
+      </a>
+    </div>
   </section>
 </main>
 
-<footer class="bg-tinta-panel border-t border-line py-12 px-6 text-center">
-  <div class="text-xl font-display font-bold mb-6"><span class="wordmark-df">DF</span> <span class="wordmark-software">Software</span></div>
-  <div class="flex justify-center gap-6 mb-8 text-papel-dim text-sm">
-    <a href="../index.html#about" class="hover:text-jade transition-colors">Nosotros</a>
-    <a href="../index.html#portfolio" class="hover:text-jade transition-colors">Portafolio</a>
-    <a href="../index.html#contact" class="hover:text-jade transition-colors">Contacto</a>
+<!-- ===== FOOTER ===== -->
+<footer class="bg-bosque px-4 py-12 text-center text-slate-300 sm:px-6">
+  <a href="../index.html" class="mb-6 inline-flex items-center gap-2.5 rounded-lg" aria-label="DF Software — inicio">
+    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-white"><img src="../assets/df-icono.png" alt="" class="h-4 w-auto"></span>
+    <span class="text-xl font-bold tracking-[-0.02em] text-white">DF <span class="text-jade-300">Software</span></span>
+  </a>
+  <div class="mb-8 flex justify-center gap-6 text-sm">
+    <a href="../index.html#about" class="transition-colors hover:text-jade-300">Nosotros</a>
+    <a href="../index.html#portfolio" class="transition-colors hover:text-jade-300">Portafolio</a>
+    <a href="../index.html#contact" class="transition-colors hover:text-jade-300">Contacto</a>
   </div>
-  <p class="text-xs text-papel-dim/70">© 2026 DF Software. Diseñando el futuro digital.</p>
+  <p class="text-xs text-slate-400">© 2026 DF Software. Diseñando el futuro digital.</p>
 </footer>
 
-<script>
-  (function () {
-    const header = document.getElementById('siteHeader');
-    function updateHeader() {
-      if (window.scrollY > 24) {
-        header.classList.add('bg-tinta/90', 'backdrop-blur-md', 'border-line');
-      } else {
-        header.classList.remove('bg-tinta/90', 'backdrop-blur-md', 'border-line');
-      }
-    }
-    window.addEventListener('scroll', updateHeader, { passive: true });
-    updateHeader();
-  })();
-
-  (function () {
-    const els = document.querySelectorAll('[data-reveal]');
-    if (!els.length) return;
-    if (!('IntersectionObserver' in window)) {
-      els.forEach(function (el) { el.classList.add('is-revealed'); });
-      return;
-    }
-    const io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const delay = parseInt(el.dataset.revealDelay || '0', 10);
-          setTimeout(function () { el.classList.add('is-revealed'); }, delay);
-          io.unobserve(el);
-        }
-      });
-    }, { threshold: 0.15 });
-    els.forEach(function (el) { io.observe(el); });
-  })();
-</script>
+<script src="../assets/site.js"></script>
 </body>
 </html>

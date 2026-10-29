@@ -1,0 +1,138 @@
+/* =========================================================================
+   DF Software — estilos compartidos (index + páginas de servicio)
+   Tema luminoso "Clean SaaS". Los tokens de color viven en tailwind.config.js;
+   aquí solo va lo que las utilidades de Tailwind no expresan bien.
+   ========================================================================= */
+
+html { scroll-padding-top: 6.5rem; }
+body { overflow-x: clip; }
+
+/* ---- Accesibilidad ---------------------------------------------------- */
+:focus-visible { outline: 2px solid #1E7F62; outline-offset: 3px; }
+.skip-link {
+  position: absolute; left: 1rem; top: -4rem; z-index: 100;
+  background: #0B3B39; color: #fff; padding: .6rem 1rem; border-radius: .75rem;
+  font-weight: 600; transition: top 150ms ease-out;
+}
+.skip-link:focus { top: 1rem; }
+
+/* ---- Fondos: mesh gradient + retícula sutil --------------------------- */
+.mesh-hero {
+  background:
+    radial-gradient(52% 46% at 88% 6%,  rgba(110,231,183,.40) 0%, transparent 70%),
+    radial-gradient(46% 42% at 6% 2%,   rgba(125,211,252,.32) 0%, transparent 70%),
+    radial-gradient(40% 40% at 72% 92%, rgba(167,243,208,.36) 0%, transparent 70%),
+    #F8FAFC;
+}
+.mesh-soft {
+  background:
+    radial-gradient(45% 55% at 12% 0%,  rgba(167,243,208,.30) 0%, transparent 70%),
+    radial-gradient(40% 50% at 95% 100%, rgba(186,230,253,.30) 0%, transparent 70%),
+    #F1F5F9;
+}
+.grid-lines {
+  background-image:
+    linear-gradient(to right,  rgba(15,31,30,.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15,31,30,.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(70% 60% at 50% 28%, #000 0%, transparent 78%);
+          mask-image: radial-gradient(70% 60% at 50% 28%, #000 0%, transparent 78%);
+}
+
+/* ---- Superficie glass -------------------------------------------------- */
+.glass {
+  background: rgba(255,255,255,.72);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border: 1px solid rgba(226,232,240,.65);
+  box-shadow: 0 1px 2px rgba(15,31,30,.04);
+}
+
+/* ---- Logo con fondo blanco opaco sobre fondos claros ------------------- */
+.logo-blend { mix-blend-mode: multiply; }
+
+/* ---- Header flotante --------------------------------------------------- */
+#siteHeader .bar { transition: background-color 250ms ease-out, box-shadow 250ms ease-out; }
+#siteHeader.is-scrolled .bar {
+  background: rgba(255,255,255,.88);
+  box-shadow: 0 14px 34px -14px rgba(15,31,30,.22);
+}
+.nav-link { transition: color 160ms ease-out, background-color 160ms ease-out; }
+
+/* ---- Botones ----------------------------------------------------------- */
+.btn-primary, .btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  border-radius: .75rem; font-weight: 600; line-height: 1.25; cursor: pointer;
+  transition: transform 180ms ease-out, box-shadow 180ms ease-out, background-color 180ms ease-out, border-color 180ms ease-out;
+}
+/* Gradiente verde profundo → jade; texto blanco ≥ 4.9:1 en todo el recorrido */
+.btn-primary {
+  color: #fff;
+  background-image: linear-gradient(135deg, #0B3B39 0%, #1A7F63 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 8px 20px -8px rgba(11,59,57,.55);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 14px 28px -10px rgba(26,127,99,.6), 0 0 0 4px rgba(63,174,138,.18);
+}
+.btn-primary:active { transform: translateY(0) scale(.98); }
+.btn-primary:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+.btn-secondary {
+  color: #0F1F1E; background: rgba(255,255,255,.7); border: 1px solid #CBD5E1;
+}
+.btn-secondary:hover { transform: translateY(-2px); border-color: #3FAE8A; background: #fff; box-shadow: 0 10px 22px -12px rgba(11,59,57,.3); }
+.btn-secondary:active { transform: translateY(0) scale(.98); }
+
+/* ---- Tarjetas interactivas -------------------------------------------- */
+.card-lift { transition: transform 220ms ease-out, box-shadow 220ms ease-out, border-color 220ms ease-out; }
+.card-lift:hover {
+  transform: translateY(-4px);
+  border-color: rgba(63,174,138,.55);
+  box-shadow: 0 22px 44px -20px rgba(11,59,57,.28);
+}
+.plan-featured {
+  border: 1.5px solid #3FAE8A;
+  box-shadow: 0 0 0 5px rgba(63,174,138,.12), 0 34px 64px -28px rgba(11,59,57,.38);
+}
+
+/* ---- Scroll-reveal (IntersectionObserver, una sola vez) ---------------- */
+[data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity 500ms ease-out, transform 500ms ease-out; }
+[data-reveal].is-revealed { opacity: 1; transform: translateY(0); }
+
+/* ---- Línea del gráfico del hero: se dibuja al entrar ------------------- */
+.chart-line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1400ms cubic-bezier(.4,0,.2,1) 350ms; }
+.is-revealed .chart-line { stroke-dashoffset: 0; }
+.chart-area { opacity: 0; transition: opacity 900ms ease-out 900ms; }
+.is-revealed .chart-area { opacity: 1; }
+
+/* ---- Proceso: anillo + línea de conexión ------------------------------- */
+.process-ring-progress { transition: stroke-dashoffset 900ms cubic-bezier(.4,0,.2,1); }
+.process-line { transform: scaleX(0); transition: transform 1100ms cubic-bezier(.4,0,.2,1); }
+.process-line.is-drawn { transform: scaleX(1); }
+@media (max-width: 1023.98px) {
+  .step:not(:last-child)::before {
+    content: ''; position: absolute; left: 27px; top: 60px; bottom: -28px; width: 1px; background: #CBD5E1;
+  }
+}
+
+/* ---- Vistas previas del portafolio (la mecánica del iframe no cambia) -- */
+.preview { position: relative; overflow: hidden; }
+.preview iframe { position: absolute; top: 0; left: 0; border: 0; pointer-events: none; transform-origin: top left; background: #fff; }
+.preview-overlay {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: rgba(11,59,57,0); transition: background-color 200ms ease-out;
+}
+.preview-overlay > span {
+  display: inline-flex; align-items: center; gap: 4px; font-size: .82rem; font-weight: 600; color: #fff;
+  background-image: linear-gradient(135deg, #0B3B39 0%, #1A7F63 100%);
+  padding: 9px 16px; border-radius: .75rem; opacity: 0; transform: translateY(6px);
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+.preview-link:hover .preview-overlay,
+.preview-link:focus-visible .preview-overlay { background: rgba(11,59,57,.38); }
+.preview-link:hover .preview-overlay > span,
+.preview-link:focus-visible .preview-overlay > span { opacity: 1; transform: translateY(0); }
+
+/* ---- Movimiento reducido: sin transiciones ni animaciones -------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
